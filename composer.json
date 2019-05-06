@@ -1,0 +1,13 @@
+{
+    "name": "regionhalland/region-halland-acf-page-education-repeater",
+    "description": "Utbildningssida med repeterande fält",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roland Hydén",
+            "email": "Roland.Hyden@Regionhalland.se"
+        }
+    ],
+    "require": {}
+}
