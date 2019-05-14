@@ -50,8 +50,28 @@ OBS! Justera så att du hämtar aktuell version.
 },
 ```
 
+## Hämta ut namn + länkade kommun-namn via "Blade"
+
+
+```sh
+@if(function_exists('get_region_halland_acf_page_education_repeater_items'))
+  @php($myData = get_region_halland_acf_page_education_repeater_items())	
+  @if(isset($myData))
+    @foreach ($myData as $data)
+      {{ $data->post_title }}<br>
+      @foreach ($data->metadata as $metadata)
+        <a href="{{ $metadata['link_url'] }}">{{ $metadata['kommun_name'] }}</a><br>
+      @endforeach
+    @endforeach
+  @endif
+@endif
+```
+
 
 ## Versionhistorik
+
+### 1.2.0
+- Funktion för att hämta ut utbildningar
 
 ### 1.1.0
 - Reviderad version med helt nya fält

@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.0.0
+	Version: 1.2.0
 	Author: Roland Hydén
 	License: Free to use
 	Text Domain: regionhalland
@@ -220,6 +220,85 @@
 
 		endif;
 
+	}
+
+	// Metod för att hämta ut utbildningar
+	function get_region_halland_acf_page_education_repeater_items() {
+
+				// Preparerar array för att hämta ut nyheter
+		$args = array( 
+			'post_type'		=> 'utbildning',
+			'number' 		=> -1,
+			'sort_column' 	=> 'post_title', 
+			'sort_order' 	=> 'asc'
+		);
+
+		// Hämta valda utbildningar
+		$pages = get_posts($args);
+
+		// Loopa igenom valda utbildningar
+		foreach ($pages as $page) {
+
+			// Hämta ACF-objektet för link
+			$page_field_object 		= get_field('name_1000051', $page->ID);
+			
+			$page->metadata = get_region_halland_acf_page_education_repeater_metadata($page_field_object);
+
+		}
+		
+		// Returnera alla utbildningar		
+		return $pages;
+
+	}
+
+	// Hämta metadata (kommun-namn + länkar)
+	function get_region_halland_acf_page_education_repeater_metadata($page_field_object) {
+
+		// Preparerar data
+		$myData = array();
+        foreach ($page_field_object as $value) {
+	        $intKommunID = $value['name_1000053'];
+	        $strKommunName = get_region_halland_acf_page_education_repeater_kommun_namn($intKommunID);
+	        $arrLink = $value['name_1000055'];
+	        $strLinkTitle = $arrLink['title'];
+	        $strLinkUrl = $arrLink['url'];
+	        $strLinkTarget = $arrLink['target'];
+	        array_push($myData, array(
+	           'kommun_id' => $intKommunID,
+	           'kommun_name' => $strKommunName,
+	           'link_title' => $strLinkTitle,
+	           'link_url' => $strLinkUrl,
+	           'link_target' => $strLinkTarget
+	        ));
+        }
+
+        // Returnera data
+		return $myData;
+
+	}
+
+	// Omvandla id till kommun-namn
+	function get_region_halland_acf_page_education_repeater_kommun_namn($id) {
+	
+		switch ($id) {
+			case "1":
+		        $myKommun = "Falkenberg";
+		        break;
+		    case "2":
+		        $myKommun = "Halmstad";
+		        break;
+		    case "3":
+		        $myKommun = "Hylte";
+		        break;
+		    case "4":
+		        $myKommun = "Laholm";
+		        break;
+		    case "5":
+		        $myKommun = "Varberg";
+		        break;
+		 }
+
+		 return $myKommun; 
 	}
 
 	// Metod som anropas när pluginen aktiveras
