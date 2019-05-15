@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.2.0
+	Version: 1.3.0
 	Author: Roland Hydén
 	License: Free to use
 	Text Domain: regionhalland
@@ -105,6 +105,26 @@
 			            'placeholder' => '',
 			        ),
 			        1 => array(
+			        	'key' => 'field_1000056',
+			            'label' => __('Utbildningens namn', 'regionhalland'),
+			            'name' => 'name_1000057',
+			            'type' => 'text',
+			            'instructions' => __('Ange utbildningen namn. Max 100 tecken.', 'regionhalland'),
+			            'required' => 1,
+			            'conditional_logic' => 0,
+			            'wrapper' => array(
+			                'width' => '',
+			                'class' => '',
+			                'id' => '',
+			            ),
+			            'default_value' => '',
+			            'placeholder' => __('', 'regionhalland'),
+			            'maxlength' => 100,
+			            'rows' => 2,
+			            'new_lines' => '',
+			        ),
+			        
+			        2 => array(
 			        	'key' => 'field_1000048',
 			            'label' => __('Kort om utbildningen', 'regionhalland'),
 			            'name' => 'name_1000049',
@@ -222,6 +242,17 @@
 
 	}
 
+	// Metod som anropas när pluginen aktiveras
+	function region_halland_acf_page_education_repeater_activate() {
+		
+		// Vi aktivering, registrera post_type "utbildning"
+		region_halland_register_education_repeater();
+
+		// Tala om för wordpress att denna post_type finns
+		// Detta gör att permalink fungerar
+	    flush_rewrite_rules();
+	}
+
 	// Metod för att hämta ut utbildningar
 	function get_region_halland_acf_page_education_repeater_items() {
 
@@ -234,27 +265,137 @@
 		);
 
 		// Hämta valda utbildningar
-		$pages = get_posts($args);
+		$myPages = get_posts($args);
 
 		// Loopa igenom valda utbildningar
-		foreach ($pages as $page) {
+		foreach ($myPages as $page) {
 
 			// Hämta ACF-objektet för link
 			$page_field_object 		= get_field('name_1000051', $page->ID);
 			
+			$field_type_area = get_field_object('field_1000045');
+			$page->education_id = get_field('name_1000046', $page->ID);
+			$page->education_area = $field_type_area['choices'][get_field('name_1000046', $page->ID)];
+		
+			$page->education_name = get_field('name_1000057', $page->ID);
+			$page->education_read_more = get_field('name_1000049', $page->ID);
+
 			$page->metadata = get_region_halland_acf_page_education_repeater_metadata($page_field_object);
 
 		}
+
+		// Preparera en multiarray
+		$myVardOmsorg = array();
+		$myByggAnlaggning = array();
+		$myElEnergi = array();
+		$myFordonTransport = array();
+		$myIndustriteknik = array();
+		$myBarnFritid = array();
+		$myRestaurangLivsmedel = array();
+		$myHandelAdministration = array();
+		$myNaturbruk = array();
+		$myHantverk = array();
+		$myOvrigt = array();
+
+		// Loopa igenom alla sidor och attacha till respektive label-array
+		foreach ($myPages as $page) {
+			$myPage = $page;
+			if ($myPage->education_id == "1") {
+				array_push($myVardOmsorg, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "2") {
+				array_push($myByggAnlaggning, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "3") {
+				array_push($myElEnergi, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "4") {
+				array_push($myFordonTransport, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "5") {
+				array_push($myIndustriteknik, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "6") {
+				array_push($myBarnFritid, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "7") {
+				array_push($myRestaurangLivsmedel, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "8") {
+				array_push($myHandelAdministration, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "9") {
+				array_push($myNaturbruk, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "10") {
+				array_push($myHantverk, array(
+		           'page'  => $myPage
+		        ));
+			}
+			if ($myPage->education_id == "11") {
+				array_push($myOvrigt, array(
+		           'page'  => $myPage
+		        ));
+			}
+		}
+
+		// sortera om respektive array i bokstavsordning	
+		usort($myVardOmsorg, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myByggAnlaggning, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myElEnergi, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myFordonTransport, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myIndustriteknik, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myBarnFritid, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myRestaurangLivsmedel, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myHandelAdministration, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myNaturbruk, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myHantverk, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myOvrigt, 'region_halland_acf_page_education_repeater_sort_by_title');
 		
-		// Returnera alla utbildningar		
-		return $pages;
+		// Dela upp i arrayer per label	
+		$myMultiPages = array();
+		$myMultiPages['vard_omsorg'] = $myVardOmsorg;
+		$myMultiPages['bygg_anlaggning'] = $myByggAnlaggning;
+		$myMultiPages['el_energi'] = $myElEnergi;
+		$myMultiPages['fordon_transport'] = $myFordonTransport;
+		$myMultiPages['industriteknik'] = $myIndustriteknik;
+		$myMultiPages['barn_fritid'] = $myBarnFritid;
+		$myMultiPages['restaurang_livsmedel'] = $myRestaurangLivsmedel;
+		$myMultiPages['handel_administration'] = $myHandelAdministration;
+		$myMultiPages['naturbruk'] = $myNaturbruk;
+		$myMultiPages['hantverk'] = $myHantverk;
+		$myMultiPages['ovrigt'] = $myOvrigt;
+		
+		// Returnera array med alla poster
+		return $myMultiPages;
 
 	}
 
-	// Hämta metadata (kommun-namn + länkar)
+	// Funktion för att sortera en array på kolumnen 'education_name'
+	function region_halland_acf_page_education_repeater_sort_by_title($a, $b) {
+		return strcmp($a['page']->education_name,$b['page']->education_name);
+	}
+
 	function get_region_halland_acf_page_education_repeater_metadata($page_field_object) {
 
-		// Preparerar data
 		$myData = array();
         foreach ($page_field_object as $value) {
 	        $intKommunID = $value['name_1000053'];
@@ -272,12 +413,10 @@
 	        ));
         }
 
-        // Returnera data
 		return $myData;
 
 	}
 
-	// Omvandla id till kommun-namn
 	function get_region_halland_acf_page_education_repeater_kommun_namn($id) {
 	
 		switch ($id) {
@@ -299,17 +438,6 @@
 		 }
 
 		 return $myKommun; 
-	}
-
-	// Metod som anropas när pluginen aktiveras
-	function region_halland_acf_page_education_repeater_activate() {
-		
-		// Vi aktivering, registrera post_type "utbildning"
-		region_halland_register_education_repeater();
-
-		// Tala om för wordpress att denna post_type finns
-		// Detta gör att permalink fungerar
-	    flush_rewrite_rules();
 	}
 
 	// Metod som anropas när pluginen avaktiveras
