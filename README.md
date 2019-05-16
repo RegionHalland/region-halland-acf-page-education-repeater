@@ -97,6 +97,9 @@ $myMultiPages['ovrigt'] = $myOvrigt;
 
 ## Versionhistorik
 
+### 1.3.1
+- Fel antal hämtades ut
+
 ### 1.3.0
 - Uppdelaningar av utbildningar per utbildningsområde
 

@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.3.0
+	Version: 1.3.1
 	Author: Roland Hydén
 	License: Free to use
 	Text Domain: regionhalland
@@ -259,7 +259,7 @@
 				// Preparerar array för att hämta ut nyheter
 		$args = array( 
 			'post_type'		=> 'utbildning',
-			'number' 		=> -1,
+			'numberposts' 	=> -1,
 			'sort_column' 	=> 'post_title', 
 			'sort_order' 	=> 'asc'
 		);
