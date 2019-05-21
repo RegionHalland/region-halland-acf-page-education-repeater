@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.3.1
+	Version: 1.3.2
 	Author: Roland Hydén
 	License: Free to use
 	Text Domain: regionhalland
@@ -401,12 +401,21 @@
 	        $intKommunID = $value['name_1000053'];
 	        $strKommunName = get_region_halland_acf_page_education_repeater_kommun_namn($intKommunID);
 	        $arrLink = $value['name_1000055'];
-	        $strLinkTitle = $arrLink['title'];
-	        $strLinkUrl = $arrLink['url'];
-	        $strLinkTarget = $arrLink['target'];
+	        if (is_array($arrLink)) {
+		        $intHasLink = 1;
+		        $strLinkTitle = $arrLink['title'];
+		        $strLinkUrl = $arrLink['url'];
+		        $strLinkTarget = $arrLink['target'];
+	        } else {
+		        $intHasLink = 1;
+		        $strLinkTitle = "";
+		        $strLinkUrl = "";
+		        $strLinkTarget = "";
+	        }
 	        array_push($myData, array(
 	           'kommun_id' => $intKommunID,
 	           'kommun_name' => $strKommunName,
+	           'has_link' => $intHasLink,
 	           'link_title' => $strLinkTitle,
 	           'link_url' => $strLinkUrl,
 	           'link_target' => $strLinkTarget

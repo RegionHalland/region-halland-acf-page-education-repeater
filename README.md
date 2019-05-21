@@ -97,6 +97,9 @@ $myMultiPages['ovrigt'] = $myOvrigt;
 
 ## Versionhistorik
 
+### 1.3.2
+- Kontroll om länk finns
+
 ### 1.3.1
 - Fel antal hämtades ut
 
