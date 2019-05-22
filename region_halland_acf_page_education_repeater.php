@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.3.2
+	Version: 1.4.0
 	Author: Roland Hydén
 	License: Free to use
 	Text Domain: regionhalland
@@ -83,16 +83,17 @@
 			                'id' => '',
 			            ),
 			            'choices' => array(
-			                1 => __('Vård- och omsorg', 'regionhalland'),
+			                6 => __('Barn- och fritid', 'regionhalland'),
 			                2 => __('Bygg och anläggning', 'regionhalland'),
 			                3 => __('El- och energi', 'regionhalland'),
 			                4 => __('Fordon och transport', 'regionhalland'),
 			                5 => __('Industriteknik', 'regionhalland'),
-			                6 => __('Barn- och fritid', 'regionhalland'),
-			                7 => __('Restaurang och livsmedel', 'regionhalland'),
 			                8 => __('Handel och administration', 'regionhalland'),
-			                9 => __('Naturbruk', 'regionhalland'),
 			                10 => __('Hantverk', 'regionhalland'),
+			                9 => __('Naturbruk', 'regionhalland'),
+			                7 => __('Restaurang och livsmedel', 'regionhalland'),
+			                12 => __('VVS och fastighet', 'regionhalland'),
+			                1 => __('Vård- och omsorg', 'regionhalland'),
 			                11 => __('Övrigt', 'regionhalland'),
 			            ),
 			            'default_value' => array(
@@ -296,6 +297,7 @@
 		$myNaturbruk = array();
 		$myHantverk = array();
 		$myOvrigt = array();
+		$myVvsFastighet = array();
 
 		// Loopa igenom alla sidor och attacha till respektive label-array
 		foreach ($myPages as $page) {
@@ -355,6 +357,11 @@
 		           'page'  => $myPage
 		        ));
 			}
+			if ($myPage->education_id == "12") {
+				array_push($myVvsFastighet, array(
+		           'page'  => $myPage
+		        ));
+			}
 		}
 
 		// sortera om respektive array i bokstavsordning	
@@ -369,6 +376,7 @@
 		usort($myNaturbruk, 'region_halland_acf_page_education_repeater_sort_by_title');
 		usort($myHantverk, 'region_halland_acf_page_education_repeater_sort_by_title');
 		usort($myOvrigt, 'region_halland_acf_page_education_repeater_sort_by_title');
+		usort($myVvsFastighet, 'region_halland_acf_page_education_repeater_sort_by_title');
 		
 		// Dela upp i arrayer per label	
 		$myMultiPages = array();
@@ -383,6 +391,7 @@
 		$myMultiPages['naturbruk'] = $myNaturbruk;
 		$myMultiPages['hantverk'] = $myHantverk;
 		$myMultiPages['ovrigt'] = $myOvrigt;
+		$myMultiPages['vvs_fastighet'] = $myVvsFastighet;
 		
 		// Returnera array med alla poster
 		return $myMultiPages;

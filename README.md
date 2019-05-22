@@ -91,11 +91,16 @@ $myMultiPages['restaurang_livsmedel'] = $myRestaurangLivsmedel;
 $myMultiPages['handel_administration'] = $myHandelAdministration;
 $myMultiPages['naturbruk'] = $myNaturbruk;
 $myMultiPages['hantverk'] = $myHantverk;
+$myMultiPages['vvs_fastighet'] = $myOvrigt;
 $myMultiPages['ovrigt'] = $myOvrigt;
 ```
 
 
 ## Versionhistorik
+
+### 1.4.0
+- Utbildningsområde "VVS och fastighet" tillagt
+- Nytt utbildningsområde tillagt på sidan "template-lista-utbildningar.blade.php"
 
 ### 1.3.2
 - Kontroll om länk finns
