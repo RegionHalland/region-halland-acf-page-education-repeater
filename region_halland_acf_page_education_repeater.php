@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.5.0
+	Version: 1.6.0
 	Author: Roland Hydén
 	License: GPL-3.0
 	Text Domain: regionhalland
