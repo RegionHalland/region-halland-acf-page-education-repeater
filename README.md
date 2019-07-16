@@ -106,6 +106,9 @@ $myMultiPages['ovrigt'] = $myOvrigt;
 
 ## Versionhistorik
 
+### 1.6.1
+- Korrigerat länk till licens-fil
+
 ### 1.6.0
 - Bifogat fil med licensmodell
 
