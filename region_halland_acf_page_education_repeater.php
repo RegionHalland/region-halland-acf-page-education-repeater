@@ -6,7 +6,7 @@
 	/*
 	Plugin Name: Region Halland ACF Page Education Repeater
 	Description: ACF-fält för extra fält nederst på en utbildning-sida
-	Version: 1.6.1
+	Version: 1.7.0
 	Author: Roland Hydén
 	License: GPL-3.0
 	Text Domain: regionhalland
@@ -405,11 +405,17 @@
 
 	function get_region_halland_acf_page_education_repeater_metadata($page_field_object) {
 
+		// Temporär array
 		$myData = array();
+
+		// Loopa igenom alla labels
         foreach ($page_field_object as $value) {
+	        
 	        $intKommunID = $value['name_1000053'];
 	        $strKommunName = get_region_halland_acf_page_education_repeater_kommun_namn($intKommunID);
 	        $arrLink = $value['name_1000055'];
+	        
+	        // Om det finns en sparad länk
 	        if (is_array($arrLink)) {
 		        $intHasLink = 1;
 		        $strLinkTitle = $arrLink['title'];
@@ -421,6 +427,8 @@
 		        $strLinkUrl = "";
 		        $strLinkTarget = "";
 	        }
+
+	        // Pusha till temporär array
 	        array_push($myData, array(
 	           'kommun_id' => $intKommunID,
 	           'kommun_name' => $strKommunName,
@@ -429,10 +437,20 @@
 	           'link_url' => $strLinkUrl,
 	           'link_target' => $strLinkTarget
 	        ));
+
         }
 
+        // Sortera om kommunerna i bokstavsordning
+		usort($myData, 'region_halland_acf_page_education_repeater_sort_by_kommun_name');
+
+		// Returnera data
 		return $myData;
 
+	}
+
+	// Funktion för att sortera en array på kolumnen 'education_name'
+	function region_halland_acf_page_education_repeater_sort_by_kommun_name($a, $b) {
+		return strcmp($a['kommun_name'],$b['kommun_name']);
 	}
 
 	function get_region_halland_acf_page_education_repeater_kommun_namn($id) {

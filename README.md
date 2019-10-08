@@ -106,6 +106,9 @@ $myMultiPages['ovrigt'] = $myOvrigt;
 
 ## Versionhistorik
 
+### 1.7.0
+- Sorterat kommunerna i bokstavsordning
+
 ### 1.6.1
 - Korrigerat länk till licens-fil
 
